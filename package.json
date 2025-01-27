@@ -1,0 +1,15 @@
+{
+  "name": "forum",
+  "version": "1.0.0",
+  "description": "Тестовое задание для стажировки",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ефременко Даниил",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "sequelize": "^6.37.5"
+  }
+}
