@@ -2,16 +2,18 @@
   "name": "forum",
   "version": "1.0.0",
   "description": "Тестовое задание для стажировки",
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "author": "Ефременко Даниил",
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.2",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.5"
   },
   "devDependencies": {
