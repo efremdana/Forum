@@ -1,4 +1,4 @@
-import {Sequelize, Model, DataTypes} from 'sequelize';
+import {Model, DataTypes} from 'sequelize';
 import sequelize from '../db.js';
 class Article extends Model {
     declare id: number;
