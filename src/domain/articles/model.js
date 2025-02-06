@@ -1,24 +1,22 @@
 import {Model, DataTypes} from 'sequelize';
 import sequelize from '../db.js';
-
-class Comment extends Model {
+class Article extends Model {
     declare id: number;
+    declare name: string;
     declare text: string;
-    declare article_id: number;
 }
 
-Comment.init(
+Article.init(
     {
-        text: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        article_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false
+        text: {
+            type: DataTypes.STRING
         },
     },
-    {sequelize},
+    { sequelize }
 )
 
-export default Comment;
+export default Article;
