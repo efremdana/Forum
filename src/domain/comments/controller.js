@@ -1,8 +1,11 @@
 import Comment from "./model.js";
+import Article from "../articles/model.js";
 
 async function getAll() {
     try {
-        return await Comment.findAll();
+        return await Comment.findAll({
+            include: [{ model: Article, as: "article" }],
+        });
     } catch (err) {
         console.error("Error in getAll:", err);
         throw err;
@@ -12,7 +15,9 @@ async function getAll() {
 
 async function getOne(id){
     try {
-        return await Comment.findByPk(id);
+        return await Comment.findByPk(id, {
+            include: [{ model: Article, as: "article" }],
+        });
     } catch (err) {
         console.error(`Error in getOne(${id}):`, err);
         throw err;
