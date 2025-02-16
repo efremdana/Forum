@@ -1,5 +1,6 @@
 import Comment from "./model.js";
 import Article from "../articles/model.js";
+import {Op} from "sequelize";
 
 async function getAll(articleID) {
     try {
@@ -63,6 +64,24 @@ async function deleteByID(id){
     }
 }
 
+async function getFromTo(dateFrom, dateTo) {
+    try {
+        return await Comment.findAll(
+            {
+                where: {
+                    createdAt: {
+                        [Op.between]: [new Date(dateFrom), new Date(dateTo)],
+                    },
+                },
+                include: [{model: Article, as: "article"}]
+            }
+        );
+    } catch (err) {
+        console.error(`Error in getByDateRange(${dateFrom}, ${dateTo}):`, err);
+        throw err;
+    }
+}
+
 export default {
     getAll,
     getOne,
@@ -70,4 +89,5 @@ export default {
     addAll,
     updateByID,
     deleteByID,
+    getFromTo,
 };
