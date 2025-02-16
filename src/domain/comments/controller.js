@@ -4,7 +4,7 @@ import {Op} from "sequelize";
 async function getAll(articleID) {
     try {
         return await Comment.findAll({
-            where: { articleID },
+            where: { article_id: articleID },
             include: [{ model: Article, as: "article" }],
         });
     } catch (err) {
