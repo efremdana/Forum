@@ -9,7 +9,7 @@ const app = new express();
 
 app.use(express.json());
 app.use("/", articleRouter);
-app.use("/article/:articleID", commentRouter);
+app.use("/article", commentRouter);
 app.use("/", filterRouter);
 
 app.listen(PORT, () => console.log('Server started on port ' + PORT));

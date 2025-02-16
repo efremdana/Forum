@@ -4,7 +4,7 @@ import commentController from "../../domain/comments/controller.js";
 const router = express.Router();
 
 router.get(
-    '/comment/:commentID',
+    '/:articleID/comment/:commentID',
     async (
         req,
         res,
@@ -28,14 +28,15 @@ router.get(
 )
 
 router.get(
-    '/comments',
+    '/:articleID/comments',
     async (
         req,
         res,
         next,
     ) => {
         try {
-            const comments = await commentController.getAll(req.params.articleID);
+            const { articleID } = req.params;
+            const comments = await commentController.getAll(articleID);
             res.send(comments);
         } catch (err) {
             next(err);
@@ -44,7 +45,7 @@ router.get(
 )
 
 router.post(
-    '/comment',
+    '/:articleID/comment',
     async (
         req,
         res,
@@ -73,7 +74,7 @@ router.post(
 )
 
 router.patch(
-    '/comment/:commentID',
+    '/:articleID/comment/:commentID',
     async (
         req,
         res,
@@ -111,7 +112,7 @@ router.patch(
 )
 
 router.delete(
-    '/comment/:commentID',
+    '/:articleID/comment/:commentID',
     async (
         req,
         res,
