@@ -1,5 +1,4 @@
-import Comment from "./model.js";
-import Article from "../articles/model.js";
+import { Comment, Article } from "../models.js";
 import {Op} from "sequelize";
 
 async function getAll(articleID) {

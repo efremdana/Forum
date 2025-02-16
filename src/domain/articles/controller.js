@@ -1,4 +1,4 @@
-import Article from "./model.js";
+import { Article } from "../models.js";
 
 async function getAll() {
     try {
