@@ -1,14 +1,15 @@
 import {Model, DataTypes} from 'sequelize';
 import sequelize from '../db.js';
 
-class Comment extends Model {
-    declare id: number;
-    declare text: string;
-    declare article_id: number;
-}
+class Comment extends Model {}
 
 Comment.init(
     {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
         text: {
             type: DataTypes.STRING,
             allowNull: false
