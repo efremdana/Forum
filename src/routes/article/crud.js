@@ -56,7 +56,13 @@ router.post(
                 return res.status(400).json({ error: "Name and text are required." });
             }
 
-            const newArticle = await articleController.addOne({ articleName, articleText });
+
+            const newArticle = await articleController.addOne(
+                {
+                    name: articleName,
+                    text: articleText
+                },
+            );
 
             res.status(201).json(newArticle);
         } catch (err) {
@@ -81,7 +87,10 @@ router.patch(
             }
 
             const numberUpdated = await articleController.updateByID(
-                { articleName, articleText },
+                {
+                    name: articleName,
+                    text: articleText
+                },
                 articleID,
             );
             if (!numberUpdated)
