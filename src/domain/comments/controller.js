@@ -1,9 +1,10 @@
 import Comment from "./model.js";
 import Article from "../articles/model.js";
 
-async function getAll() {
+async function getAll(articleID) {
     try {
         return await Comment.findAll({
+            where: { articleID },
             include: [{ model: Article, as: "article" }],
         });
     } catch (err) {
