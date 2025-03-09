@@ -87,7 +87,6 @@ export default {
     articlesInPage() {
       const start = this.startIndexPage
       const end = this.endIndexPage
-      const a = this.$store.state.count
       return this.$store.state.articles.slice(start, end)
     },
     startIndexPage() {
