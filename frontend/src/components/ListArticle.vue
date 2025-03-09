@@ -1,42 +1,80 @@
 <template>
-  <div class="container mx-auto p-4">
-    <header class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800">Форум</h1>
-      <button @click="isAddArticle = true" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-        Добавить статью
-      </button>
+  <div class="flex flex-col min-h-screen">
+    <header class="bg-white shadow-sm w-full">
+      <div class="container mx-auto p-4 flex items-center justify-between">
+        <!-- Заголовок по центру -->
+        <h1 class="text-3xl font-bold text-gray-800 text-center flex-grow">
+          Форум
+        </h1>
+
+        <!-- Кнопка справа -->
+        <button
+          @click="isAddArticle = true"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Добавить статью
+        </button>
+      </div>
     </header>
 
-    <div v-for="article in articles" :key="article.name" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" >
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-xl font-semibold text-gray-800">{{ article.name }}</h2>
-        <p class="text-sm text-gray-500 mt-2">{{ article.createDate }}</p>
-      </div>
-    </div>
+    <main class="flex-grow bg-gray-100">
+      <div class="container mx-auto p-4 max-w-screen-xl">
+        <div class="relative overflow-hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-center">
+            <div
+              v-for="article in articlesInPage"
+              :key="article.name"
+              class="bg-white p-6 rounded-lg shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:max-w-[200px] will-change-transform"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 break-words whitespace-normal">
+                {{ article.name }}
+              </h2>
+              <p class="text-sm text-gray-500 mt-2 break-words whitespace-normal">
+                {{ article.createDate }}
+              </p>
+            </div>
+          </div>
+        </div>
 
-    <FormAddArticle
-      v-if="isAddArticle"
-      @close="isAddArticle = false"
-      @submit="submitArticle"
-      :hiddenModal="!hiddenModal"
-    />
+        <div class="flex justify-center mt-6 space-x-4">
+          <button
+            @click="prevPage"
+            :disabled="page === 1"
+            class="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-400"
+          >
+            Назад
+          </button>
+
+          <button
+            @click="nextPage"
+            :disabled="endIndexPage >= lengthArticles"
+            class="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600"
+          >
+            Вперед
+          </button>
+        </div>
+
+        <FormAddArticle
+          v-if="isAddArticle"
+          @close="isAddArticle = false"
+          @submit="submitArticle"
+          :hiddenModal="!hiddenModal"
+        />
+      </div>
+    </main>
   </div>
 </template>
 
-<script>
 
+<script>
 import FormAddArticle from "@/components/FormAddArticle.vue";
+
 export default {
-  components: {FormAddArticle},
+  components: { FormAddArticle },
   data() {
     return {
-      articles: [
-        {name: "Название статьи 1", createDate: "Дата создания: 2023-10-01", text: "1"},
-        {name: "Название статьи 2", createDate: "Дата создания: 2023-10-02", text: "2"},
-        {name: "Название статьи 3", createDate: "Дата создания: 2023-10-03", text: "3"},
-        {name: "Название статьи 4", createDate: "Дата создания: 2023-10-04", text: "4"},
-      ],
-      isAddArticle: false
+      isAddArticle: false,
+      page: 1
     };
   },
 
@@ -44,19 +82,38 @@ export default {
     hiddenModal() {
       return {
         hidden: this.isAddArticle
-      }
+      };
+    },
+    articlesInPage() {
+      const start = this.startIndexPage
+      const end = this.endIndexPage
+      const a = this.$store.state.count
+      return this.$store.state.articles.slice(start, end)
+    },
+    startIndexPage() {
+      return 3 * 5 * (this.page - 1)
+    },
+    endIndexPage() {
+      return 3 * 5 * this.page
+    },
+    lengthArticles() {
+      return this.$store.state.articles.length
     }
   },
 
   methods: {
     submitArticle(article) {
-      this.articles.push({
-        name: article.name,
-        text: article.text,
-        createDate: new Date().toISOString().split("T")[0]
-      })
-      this.isAddArticle = false;
-      window.isAddArticle = isAddArticle;
+      this.$store.commit('addArticle', article)
+      this.isAddArticle = false
+    },
+    toViewArticle(article) {
+
+    },
+    prevPage() {
+      if (this.page > 1) this.page--;
+    },
+    nextPage() {
+      if (this.endIndexPage < this.lengthArticles) this.page++;
     }
   }
 };
