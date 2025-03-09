@@ -8,7 +8,9 @@ const routes = [
   { name: "ViewArticle", path: "/article/:articleID", component: ViewArticle }
 ]
 
-export const router = createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes
 })
+
+export default router
