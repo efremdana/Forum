@@ -33,11 +33,7 @@ export default {
   components: {ListComments, AddComment},
   data() {
     return {
-      article: {
-        name: "Статья",
-        text: "Здесь будет текст статьи.Lorem ipsum dolor sit amet...",
-        updateDate: "2025-03-06",
-      },
+      article: undefined,
       listComments: [],
       currentEditComment: "",
       editIndex: null,
@@ -72,6 +68,12 @@ export default {
     isEdit(newValue){
       this.isAdd = !newValue
     }
+  },
+
+  created() {
+    debugger;
+    const articleID = Number(this.$route.params.articleID)
+    this.article = this.$store.state.articles.find(article => article.id === articleID)
   }
 }
 </script>

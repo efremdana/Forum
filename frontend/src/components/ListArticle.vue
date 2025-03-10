@@ -2,12 +2,9 @@
   <div class="flex flex-col min-h-screen">
     <header class="bg-white shadow-sm w-full">
       <div class="container mx-auto p-4 flex items-center justify-between">
-        <!-- Заголовок по центру -->
         <h1 class="text-3xl font-bold text-gray-800 text-center flex-grow">
           Форум
         </h1>
-
-        <!-- Кнопка справа -->
         <button
           @click="isAddArticle = true"
           class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -21,10 +18,11 @@
       <div class="container mx-auto p-4 max-w-screen-xl">
         <div class="relative overflow-hidden">
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-center">
-            <div
+            <router-link
               v-for="article in articlesInPage"
               :key="article.name"
-              class="bg-white p-6 rounded-lg shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:max-w-[200px] will-change-transform"
+              :to="{ name: 'ViewArticle', params: { articleID: article.id } }"
+              class="bg-white p-6 rounded-lg shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:max-w-[200px] will-change-transform block no-underline text-inherit"
             >
               <h2 class="text-xl font-semibold text-gray-800 break-words whitespace-normal">
                 {{ article.name }}
@@ -32,7 +30,7 @@
               <p class="text-sm text-gray-500 mt-2 break-words whitespace-normal">
                 {{ article.createDate }}
               </p>
-            </div>
+            </router-link>
           </div>
         </div>
 
