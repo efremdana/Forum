@@ -7,6 +7,11 @@ import {
   deleteComment,
 } from './api/comment.js'
 
+function formatDate(dateString) {
+  const date = new Date(dateString)
+  return date.toISOString().split('T')[0] // Формат гггг-мм-дд
+}
+
 const store = createStore({
   state: {
     articles: [],
@@ -14,7 +19,11 @@ const store = createStore({
   },
   mutations: {
     setArticles(state, articles) {
-      state.articles = articles
+      state.articles = articles.map(article => ({
+        ...article,
+        createdAt: formatDate(article.createdAt),
+        updatedAt: formatDate(article.updatedAt)
+      }))
     },
     setComments(state, comments) {
       state.commentsOnCurrentArticles = comments.map(comment => ({
@@ -23,7 +32,11 @@ const store = createStore({
       }))
     },
     pushArticle(state, article) {
-      state.articles.push(article)
+      state.articles.push({
+        ...article,
+        createdAt: formatDate(article.createdAt),
+        updatedAt: formatDate(article.updatedAt)
+      })
     },
     pushComment(state, comment) {
       state.commentsOnCurrentArticles.push({
@@ -34,7 +47,11 @@ const store = createStore({
     setArticle(state, article) {
       const index = state.articles.findIndex(a => a.id === article.id)
       if (index !== -1) {
-        state.articles[index] = article
+        state.articles[index] = {
+          ...article,
+          createdAt: formatDate(article.createdAt),
+          updatedAt: formatDate(article.updatedAt)
+        }
       }
     },
     setComment(state, comment) {
