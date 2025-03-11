@@ -50,17 +50,17 @@ router.post(
         next,
     ) => {
         try {
-            const { articleName, articleText } = req.body;
+            const { name, text } = req.body;
 
-            if (!articleName || !articleText) {
+            if (!name || !text) {
                 return res.status(400).json({ error: "Name and text are required." });
             }
 
 
             const newArticle = await articleController.addOne(
                 {
-                    name: articleName,
-                    text: articleText
+                    name,
+                    text
                 },
             );
 
@@ -79,17 +79,17 @@ router.patch(
         next,
     ) => {
         try {
-            const { articleName, articleText } = req.body;
+            const { name, text } = req.body;
             const { articleID } = req.params;
 
-            if (!articleName && !articleText) {
+            if (!name && !text) {
                 return res.status(400).json({ error: "Name and text are required." });
             }
 
             const numberUpdated = await articleController.updateByID(
                 {
-                    name: articleName,
-                    text: articleText
+                    name,
+                    text
                 },
                 articleID,
             );

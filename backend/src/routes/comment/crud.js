@@ -52,16 +52,16 @@ router.post(
         next,
     ) => {
         try {
-            const { commentText } = req.body;
+            const { text } = req.body;
             const { articleID } = req.params;
 
-            if (!commentText) {
+            if (!text) {
                 return res.status(400).json({ error: "Text are required." });
             }
 
             const newComment = await commentController.addOne(
                 {
-                    text: commentText,
+                    text,
                     article_id: articleID
                 },
             );
@@ -81,16 +81,16 @@ router.patch(
         next,
     ) => {
         try {
-            const { commentText } = req.body;
+            const { text } = req.body;
             const { commentID, articleID } = req.params;
 
-            if (!commentText) {
+            if (!text) {
                 return res.status(400).json({ error: "Text are required." });
             }
 
             const numberUpdated = await commentController.updateByID(
                 {
-                    text: commentText,
+                    text,
                     article_id: articleID
                 },
                 commentID,
