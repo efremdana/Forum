@@ -28,9 +28,7 @@
 export default {
   props: ['listComments'],
   data() {
-    return {
-
-    }
+    return {}
   },
 }
 </script>

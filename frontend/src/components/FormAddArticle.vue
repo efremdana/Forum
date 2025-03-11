@@ -1,9 +1,12 @@
 <template>
-  <div :class="{ hidden: hiddenModal }" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div
+    :class="{ hidden: hiddenModal }"
+    class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
+  >
     <div class="bg-white p-6 rounded-lg shadow-lg w-96">
       <h2 class="text-xl font-semibold mb-4">Добавить статью</h2>
       <label class="block mb-2">Название</label>
-      <input v-model="nameArticle" type="text" class="w-full p-2 border rounded mb-4">
+      <input v-model="nameArticle" type="text" class="w-full p-2 border rounded mb-4" />
       <label class="block mb-2">Текст статьи</label>
       <textarea v-model="textArticle" class="w-full p-2 border rounded mb-4" rows="4"></textarea>
       <div class="flex justify-end space-x-2">
@@ -27,9 +30,9 @@ export default {
   methods: {
     addArticle() {
       if (this.nameArticle.trim() && this.textArticle.trim()) {
-        this.$emit("submit", { name: this.nameArticle, text: this.textArticle });
+        this.$emit('submit', { name: this.nameArticle, text: this.textArticle })
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>

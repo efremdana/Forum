@@ -2,9 +2,7 @@
   <div class="flex flex-col min-h-screen">
     <header class="bg-white shadow-sm w-full">
       <div class="container mx-auto p-4 flex items-center justify-between">
-        <h1 class="text-3xl font-bold text-gray-800 text-center flex-grow">
-          Форум
-        </h1>
+        <h1 class="text-3xl font-bold text-gray-800 text-center flex-grow">Форум</h1>
         <button
           @click="isAddArticle = true"
           class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -17,7 +15,9 @@
     <main class="flex-grow bg-gray-100">
       <div class="container mx-auto p-4 max-w-screen-xl">
         <div class="relative overflow-hidden">
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-center">
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-center"
+          >
             <router-link
               v-for="article in articlesInPage"
               :key="article.name"
@@ -28,7 +28,7 @@
                 {{ article.name }}
               </h2>
               <p class="text-sm text-gray-500 mt-2 break-words whitespace-normal">
-                {{ article.createDate }}
+                {{ article.createdAt }}
               </p>
             </router-link>
           </div>
@@ -63,24 +63,23 @@
   </div>
 </template>
 
-
 <script>
-import FormAddArticle from "@/components/FormAddArticle.vue";
+import FormAddArticle from '@/components/FormAddArticle.vue'
 
 export default {
   components: { FormAddArticle },
   data() {
     return {
       isAddArticle: false,
-      page: 1
-    };
+      page: 1,
+    }
   },
 
   computed: {
     hiddenModal() {
       return {
-        hidden: this.isAddArticle
-      };
+        hidden: this.isAddArticle,
+      }
     },
     articlesInPage() {
       const start = this.startIndexPage
@@ -95,7 +94,7 @@ export default {
     },
     lengthArticles() {
       return this.$store.state.articles.length
-    }
+    },
   },
 
   methods: {
@@ -107,11 +106,11 @@ export default {
 
     },
     prevPage() {
-      if (this.page > 1) this.page--;
+      if (this.page > 1) this.page--
     },
     nextPage() {
-      if (this.endIndexPage < this.lengthArticles) this.page++;
-    }
-  }
-};
+      if (this.endIndexPage < this.lengthArticles) this.page++
+    },
+  },
+}
 </script>

@@ -22,27 +22,27 @@ export default {
 
   data() {
     return {
-      text: ""
+      text: '',
     }
   },
 
   computed: {
     defineAction() {
-      return this.isEdit ? "Изменить" : "Добавить"
-    }
+      return this.isEdit ? 'Изменить' : 'Добавить'
+    },
   },
 
   methods: {
     submitComment() {
       this.$emit('submit', { text: this.text })
-      this.text = ""
-    }
+      this.text = ''
+    },
   },
 
   watch: {
     textComment(newValue) {
-      this.text = newValue || ""
-    }
-  }
+      this.text = newValue || ''
+    },
+  },
 }
 </script>

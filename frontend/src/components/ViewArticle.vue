@@ -65,9 +65,9 @@ export default {
   },
 
   watch: {
-    isEdit(newValue){
+    isEdit(newValue) {
       this.isAdd = !newValue
-    }
+    },
   },
 
   created() {
