@@ -12,6 +12,7 @@
 
     <div class="mt-6">
       <h2 class="text-2xl font-semibold text-gray-800">Комментарии</h2>
+      <CommentFilter @filter="applyDateFilter" />
       <div id="comments-list">
         <ListComments @del="deletedComment" @edit="editEventComment" :listComments="listComments" />
       </div>
@@ -38,9 +39,10 @@
 <script>
 import ListComments from '@/components/ListComments.vue'
 import AddComment from '@/components/AddComment.vue'
-import FormAddArticle from "@/components/FormAddArticle.vue";
+import FormAddArticle from "@/components/FormAddArticle.vue"
+import CommentFilter from "@/components/CommentFilter.vue"
 export default {
-  components: { ListComments, AddComment, FormAddArticle },
+  components: { ListComments, AddComment, FormAddArticle, CommentFilter },
   data() {
     return {
       currentEditComment: '',
@@ -60,10 +62,13 @@ export default {
     },
     listComments() {
       return this.$store.state.commentsOnCurrentArticles || []
-    }
+    },
   },
 
   methods: {
+    applyDateFilter({ startDate, endDate }) {
+      this.$store.dispatch('filterComments', { startDate, endDate })
+    },
     openEditModal() {
       this.isEditArticle = true
     },

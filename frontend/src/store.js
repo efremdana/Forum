@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import { getCommentsAnalytics } from './api/filter.js'
 import { getAllArticles, createArticle, updateArticle, deleteArticle } from './api/article.js'
 import {
   getAllCommentsForArticle,
@@ -137,6 +138,10 @@ const store = createStore({
       } catch (error) {
         console.error('Ошибка удаления комментария:', error)
       }
+    },
+    async filterComments({ commit }, { startDate, endDate }){
+      const filterComments = await getCommentsAnalytics(startDate, endDate)
+      commit('setComments', filterComments)
     },
   },
 })
