@@ -20,10 +20,16 @@
           >
             <router-link
               v-for="article in articlesInPage"
-              :key="article.name"
+              :key="article.id"
               :to="{ name: 'ViewArticle', params: { articleID: article.id } }"
               class="bg-white p-6 rounded-lg shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg w-full sm:max-w-[200px] will-change-transform block no-underline text-inherit"
             >
+              <button
+                @click.prevent.stop="deleteArticle(article.id)"
+                class="absolute top-2 right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+              >
+                <img src="/icon-delete.png" alt="Удалить" class="w-4 h-4" />
+              </button>
               <h2 class="text-xl font-semibold text-gray-800 break-words whitespace-normal">
                 {{ article.name }}
               </h2>
@@ -99,11 +105,11 @@ export default {
 
   methods: {
     submitArticle(article) {
-      this.$store.commit('addArticle', article)
+      this.$store.dispatch('addArticle', article)
       this.isAddArticle = false
     },
-    toViewArticle(article) {
-
+    deleteArticle(articleID) {
+      this.$store.dispatch('deleteArticle', articleID)
     },
     prevPage() {
       if (this.page > 1) this.page--
