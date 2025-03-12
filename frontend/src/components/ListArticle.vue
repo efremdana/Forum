@@ -67,12 +67,14 @@ export default {
   data() {
     return {
       isAddArticle: false,
-      page: 1,
       articlesPerPage: 15,
     }
   },
   computed: {
     ...mapState(['articles']),
+    page() {
+      return Number(this.$route.query.page) || 1
+    },
     lengthArticles() {
       return this.articles.length
     },
@@ -92,11 +94,14 @@ export default {
       this.addArticle(article)
       this.isAddArticle = false
     },
+    changePage(newPage) {
+      this.$router.push({ query: { page: newPage } })
+    },
     prevPage() {
-      if (this.page > 1) this.page--
+      if (this.page > 1) this.changePage(this.page - 1)
     },
     nextPage() {
-      if (this.endIndexPage < this.lengthArticles) this.page++
+      if (this.endIndexPage < this.lengthArticles) this.changePage(this.page + 1)
     },
   },
 }
