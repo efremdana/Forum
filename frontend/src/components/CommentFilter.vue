@@ -1,7 +1,7 @@
 <template>
   <div class="mb-4 flex space-x-2">
-    <input v-model="startDate" type="date" class="border p-2 rounded" />
-    <input v-model="endDate" type="date" class="border p-2 rounded" />
+    <input v-model="localStartDate" type="date" class="border p-2 rounded" />
+    <input v-model="localEndDate" type="date" class="border p-2 rounded" />
     <button
       @click="applyFilter"
       :disabled="!isValidDateRange"
@@ -18,39 +18,43 @@
 
 <script>
 export default {
+  props: {
+    startDate: {
+      type: String,
+      default: '',
+    },
+    endDate: {
+      type: String,
+      default: '',
+    },
+  },
+
   data() {
     return {
-      startDate: '',
-      endDate: '',
+      localStartDate: this.startDate,
+      localEndDate: this.endDate
     }
   },
 
   computed: {
-    //   localStartDate: {
-    //     get() {
-    //       return this.startDate
-    //     },
-    //     set(value) {
-    //       this.$emit('update:startDate', value)
-    //     },
-    //   },
-    //   localEndDate: {
-    //     get() {
-    //       return this.endDate
-    //     },
-    //     set(value) {
-    //       this.$emit('update:endDate', value)
-    //     },
-    //   },
     isValidDateRange() {
-      return this.startDate && this.endDate && this.startDate <= this.endDate
+      return this.localStartDate && this.localEndDate && this.localStartDate <= this.localEndDate
+    },
+  },
+
+  watch: {
+    startDate(newVal) {
+      this.localStartDate = newVal
+    },
+    endDate(newVal) {
+      this.localEndDate = newVal
     },
   },
 
   methods: {
     applyFilter() {
       if (this.isValidDateRange) {
-        this.$emit('filter', { startDate: this.startDate, endDate: this.endDate })
+        this.$emit('filter', { startDate: this.localStartDate, endDate: this.localEndDate })
       }
     },
   },

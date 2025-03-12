@@ -12,7 +12,7 @@
 
     <div class="mt-6">
       <h2 class="text-2xl font-semibold text-gray-800">Комментарии</h2>
-      <CommentFilter @filter="applyDateFilter" />
+      <CommentFilter v-model:startDate="startDate" v-model:endDate="endDate" @filter="applyDateFilter" />
       <div id="comments-list">
         <ListComments @del="deletedComment" @edit="editEventComment" :listComments="listComments" />
       </div>
@@ -59,6 +59,12 @@ export default {
       articles: (state) => state.articles,
       listComments: (state) => state.commentsOnCurrentArticles || [],
     }),
+    startDate() {
+      return this.$route.query.startDate || ''
+    },
+    endDate() {
+      return this.$route.query.endDate || ''
+    },
     currentArticleID() {
       return Number(this.$route.params.articleID)
     },
@@ -76,7 +82,8 @@ export default {
       'loadComments',
     ]),
     applyDateFilter({ startDate, endDate }) {
-      this.filterComments({ startDate, endDate })
+      this.filterComments({ startDate, endDate, articleID: this.currentArticleID })
+      this.$router.push({ query: { startDate, endDate } })
     },
     openEditModal() {
       this.isEditArticle = true
@@ -117,7 +124,11 @@ export default {
     },
   },
   created() {
-    this.loadComments(this.currentArticleID)
+    if (this.startDate && this.endDate) {
+      this.filterComments({ startDate: this.startDate, endDate: this.endDate, articleID: this.currentArticleID })
+    } else {
+      this.loadComments(this.currentArticleID)
+    }
   },
 }
 </script>
