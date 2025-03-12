@@ -10,7 +10,11 @@
       <label class="block mb-2">Название</label>
       <input v-model="localNameArticle" type="text" class="w-full p-2 border rounded mb-4" />
       <label class="block mb-2">Текст статьи</label>
-      <textarea v-model="localTextArticle" class="w-full p-2 border rounded mb-4" rows="4"></textarea>
+      <textarea
+        v-model="localTextArticle"
+        class="w-full p-2 border rounded mb-4"
+        rows="4"
+      ></textarea>
       <div class="flex justify-end space-x-2">
         <button @click="$emit('close')" class="px-4 py-2 bg-gray-400 text-white rounded-lg">
           Закрыть
@@ -33,19 +37,19 @@ export default {
     return {
       localNameArticle: '',
       localTextArticle: '',
-    };
+    }
   },
   computed: {
     isEditing() {
-      return this.initialArticle && this.initialArticle.name !== undefined;
+      return this.initialArticle && this.initialArticle.name !== undefined
     },
   },
   watch: {
     initialArticle: {
       immediate: true,
       handler(newValue) {
-        this.localNameArticle = newValue?.name || '';
-        this.localTextArticle = newValue?.text || '';
+        this.localNameArticle = newValue?.name || ''
+        this.localTextArticle = newValue?.text || ''
       },
     },
   },
@@ -55,9 +59,9 @@ export default {
         this.$emit('submit', {
           name: this.localNameArticle,
           text: this.localTextArticle,
-        });
+        })
       }
     },
   },
-};
+}
 </script>

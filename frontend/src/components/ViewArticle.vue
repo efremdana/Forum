@@ -56,18 +56,25 @@ export default {
   },
   computed: {
     ...mapState({
-      articles: state => state.articles,
-      listComments: state => state.commentsOnCurrentArticles || []
+      articles: (state) => state.articles,
+      listComments: (state) => state.commentsOnCurrentArticles || [],
     }),
     currentArticleID() {
       return Number(this.$route.params.articleID)
     },
     article() {
-      return this.articles.find(article => article.id === this.currentArticleID) || {}
-    }
+      return this.articles.find((article) => article.id === this.currentArticleID) || {}
+    },
   },
   methods: {
-    ...mapActions(['filterComments', 'updateArticle', 'deleteComment', 'updateComment', 'addComment', 'loadComments']),
+    ...mapActions([
+      'filterComments',
+      'updateArticle',
+      'deleteComment',
+      'updateComment',
+      'addComment',
+      'loadComments',
+    ]),
     applyDateFilter({ startDate, endDate }) {
       this.filterComments({ startDate, endDate })
     },
@@ -79,8 +86,8 @@ export default {
         ...this.article,
         ...updatedArticle,
         updatedAt: new Date().toISOString(),
-      });
-      this.isEditArticle = false;
+      })
+      this.isEditArticle = false
     },
     deletedComment(commentID) {
       this.deleteComment({ commentID, articleID: this.currentArticleID })

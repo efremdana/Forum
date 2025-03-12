@@ -21,27 +21,27 @@ export default {
   data() {
     return {
       startDate: '',
-      endDate: ''
+      endDate: '',
     }
   },
 
   computed: {
-  //   localStartDate: {
-  //     get() {
-  //       return this.startDate
-  //     },
-  //     set(value) {
-  //       this.$emit('update:startDate', value)
-  //     },
-  //   },
-  //   localEndDate: {
-  //     get() {
-  //       return this.endDate
-  //     },
-  //     set(value) {
-  //       this.$emit('update:endDate', value)
-  //     },
-  //   },
+    //   localStartDate: {
+    //     get() {
+    //       return this.startDate
+    //     },
+    //     set(value) {
+    //       this.$emit('update:startDate', value)
+    //     },
+    //   },
+    //   localEndDate: {
+    //     get() {
+    //       return this.endDate
+    //     },
+    //     set(value) {
+    //       this.$emit('update:endDate', value)
+    //     },
+    //   },
     isValidDateRange() {
       return this.startDate && this.endDate && this.startDate <= this.endDate
     },

@@ -34,11 +34,11 @@ export default {
   },
   methods: {
     deleteComment(commentID) {
-      this.$emit('del', commentID);
+      this.$emit('del', commentID)
     },
     editComment(comment) {
-      this.$emit('edit', { text: comment.text, id: comment.id });
+      this.$emit('edit', { text: comment.text, id: comment.id })
     },
   },
-};
+}
 </script>
