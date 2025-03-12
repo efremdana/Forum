@@ -9,7 +9,12 @@
     ></textarea>
     <button
       @click="submitComment"
-      class="mt-3 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+      :disabled="!text.trim()"
+      class="mt-3 px-4 py-2 rounded-lg text-white transition-colors"
+      :class="{
+        'bg-blue-500 hover:bg-blue-600': text.trim(),
+        'bg-gray-300 cursor-not-allowed': !text.trim(),
+      }"
     >
       {{ defineAction }}
     </button>
@@ -18,12 +23,15 @@
 
 <script>
 export default {
-  props: ['textComment', 'isEdit', 'isAdd'],
-
-  data() {
-    return {
-      text: '',
-    }
+  props: {
+    textComment: {
+      type: String,
+      default: '',
+    },
+    isEdit: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   computed: {
@@ -32,16 +40,25 @@ export default {
     },
   },
 
+  data() {
+    return {
+      text: this.textComment,
+    }
+  },
+
   methods: {
     submitComment() {
-      this.$emit('submit', { text: this.text })
-      this.text = ''
+      if (!this.text.trim()) return
+      this.$emit('submit', { text: this.text.trim() })
+      if (!this.isEdit) {
+        this.text = ''
+      }
     },
   },
 
   watch: {
-    textComment(newValue) {
-      this.text = newValue || ''
+    textComment(newVal) {
+      this.text = newVal
     },
   },
 }
