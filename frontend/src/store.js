@@ -140,9 +140,10 @@ const store = createStore({
         console.error('Ошибка удаления комментария:', error)
       }
     },
-    async filterComments({ commit }, { startDate, endDate }) {
+    async filterComments({ commit }, { startDate, endDate, articleID }) {
       const filterComments = await getCommentsAnalytics(startDate, endDate)
-      commit('setComments', filterComments)
+      const filterCommentsByArticleID = filterComments.filter((comment) => comment.article_id === articleID)
+      commit('setComments', filterCommentsByArticleID)
     },
   },
 })
