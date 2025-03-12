@@ -20,23 +20,23 @@ const store = createStore({
   },
   mutations: {
     setArticles(state, articles) {
-      state.articles = articles.map(article => ({
+      state.articles = articles.map((article) => ({
         ...article,
         createdAt: formatDate(article.createdAt),
-        updatedAt: formatDate(article.updatedAt)
+        updatedAt: formatDate(article.updatedAt),
       }))
     },
     setComments(state, comments) {
-      state.commentsOnCurrentArticles = comments.map(comment => ({
+      state.commentsOnCurrentArticles = comments.map((comment) => ({
         id: comment.id,
-        text: comment.text
+        text: comment.text,
       }))
     },
     pushArticle(state, article) {
       state.articles.push({
         ...article,
         createdAt: formatDate(article.createdAt),
-        updatedAt: formatDate(article.updatedAt)
+        updatedAt: formatDate(article.updatedAt),
       })
     },
     pushComment(state, comment) {
@@ -46,31 +46,28 @@ const store = createStore({
       })
     },
     setArticle(state, article) {
-      const index = state.articles.findIndex(a => a.id === article.id)
+      const index = state.articles.findIndex((a) => a.id === article.id)
       if (index !== -1) {
         state.articles[index] = {
           ...article,
           createdAt: formatDate(article.createdAt),
-          updatedAt: formatDate(article.updatedAt)
+          updatedAt: formatDate(article.updatedAt),
         }
       }
     },
     setComment(state, comment) {
-      const index = state.commentsOnCurrentArticles.findIndex(c => c.id === comment.id)
-      if (index !== -1){
+      const index = state.commentsOnCurrentArticles.findIndex((c) => c.id === comment.id)
+      if (index !== -1) {
         state.commentsOnCurrentArticles[index] = comment
       }
     },
     removeArticle(state, articleID) {
-      state.articles = state.articles.filter(article => article.id !== articleID)
+      state.articles = state.articles.filter((article) => article.id !== articleID)
     },
     removeComment(state, commentID) {
-      state.commentsOnCurrentArticles =
-        state
-          .commentsOnCurrentArticles
-          .filter(
-            comment => comment.id !== commentID
-          )
+      state.commentsOnCurrentArticles = state.commentsOnCurrentArticles.filter(
+        (comment) => comment.id !== commentID,
+      )
     },
   },
 
@@ -107,15 +104,19 @@ const store = createStore({
         console.error('Ошибка добавления комментария:', error)
       }
     },
-    async updateArticle({ commit }, updatedArticle){
+    async updateArticle({ commit }, updatedArticle) {
       try {
-        const answer = await updateArticle(updatedArticle.id, updatedArticle.name, updatedArticle.text)
+        const answer = await updateArticle(
+          updatedArticle.id,
+          updatedArticle.name,
+          updatedArticle.text,
+        )
         commit('setArticle', updatedArticle)
       } catch (error) {
         console.error('Ошибка редактирования статьи:', error)
       }
     },
-    async updateComment({ commit }, { commentUpdate, articleID }){
+    async updateComment({ commit }, { commentUpdate, articleID }) {
       try {
         const answer = await updateComment(articleID, commentUpdate.id, commentUpdate.text)
         commit('setComment', commentUpdate)
@@ -131,7 +132,7 @@ const store = createStore({
         console.error('Ошибка удаления статьи:', error)
       }
     },
-    async deleteComment({ commit }, { commentID, articleID }){
+    async deleteComment({ commit }, { commentID, articleID }) {
       try {
         const answer = await deleteComment(articleID, commentID)
         commit('removeComment', commentID)
@@ -139,7 +140,7 @@ const store = createStore({
         console.error('Ошибка удаления комментария:', error)
       }
     },
-    async filterComments({ commit }, { startDate, endDate }){
+    async filterComments({ commit }, { startDate, endDate }) {
       const filterComments = await getCommentsAnalytics(startDate, endDate)
       commit('setComments', filterComments)
     },

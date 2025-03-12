@@ -37,7 +37,7 @@ export default {
     isEditing() {
       debugger
       return !!this.initialArticle
-    }
+    },
   },
 
   methods: {

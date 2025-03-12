@@ -39,8 +39,8 @@
 <script>
 import ListComments from '@/components/ListComments.vue'
 import AddComment from '@/components/AddComment.vue'
-import FormAddArticle from "@/components/FormAddArticle.vue"
-import CommentFilter from "@/components/CommentFilter.vue"
+import FormAddArticle from '@/components/FormAddArticle.vue'
+import CommentFilter from '@/components/CommentFilter.vue'
 export default {
   components: { ListComments, AddComment, FormAddArticle, CommentFilter },
   data() {
@@ -58,7 +58,9 @@ export default {
       return Number(this.$route.params.articleID)
     },
     article() {
-      return this.$store.state.articles.find(article => article.id === this.currentArticleID) || {};
+      return (
+        this.$store.state.articles.find((article) => article.id === this.currentArticleID) || {}
+      )
     },
     listComments() {
       return this.$store.state.commentsOnCurrentArticles || []
@@ -78,7 +80,7 @@ export default {
         createdAt: this.article.createdAt,
         updatedAt: this.article.updatedAt,
         name: updatedArticle.name,
-        text: updatedArticle.text
+        text: updatedArticle.text,
       }
       this.$store.dispatch('updateArticle', article)
       this.isEditArticle = false
@@ -87,7 +89,7 @@ export default {
       const commentID = this.listComments[index].id
       this.$store.dispatch('deleteComment', {
         commentID,
-        articleID: this.currentArticleID
+        articleID: this.currentArticleID,
       })
     },
     editEventComment({ text, index }) {
@@ -101,14 +103,14 @@ export default {
         const updateComment = { id: commentId, text: comment.text }
         this.$store.dispatch('updateComment', {
           commentUpdate: updateComment,
-          articleID: this.currentArticleID
+          articleID: this.currentArticleID,
         })
         this.isEdit = false
         this.currentEditComment = ''
       } else if (this.isAdd) {
         this.$store.dispatch('addComment', {
           commentNew: comment,
-          articleID: this.currentArticleID
+          articleID: this.currentArticleID,
         })
         this.currentEditComment = ''
       }

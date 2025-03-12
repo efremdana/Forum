@@ -13,14 +13,13 @@ export default {
   data() {
     return {
       startDate: '',
-      endDate: ''
+      endDate: '',
     }
   },
   methods: {
     applyFilter() {
-      this.$emit('filter', { startDate: this.startDate, endDate: this.endDate });
-    }
-  }
+      this.$emit('filter', { startDate: this.startDate, endDate: this.endDate })
+    },
+  },
 }
 </script>
-
