@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="{ hidden: hiddenModal }"
+    v-if="!hiddenModal"
     class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
   >
     <div class="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -8,14 +8,14 @@
         {{ isEditing ? 'Редактировать статью' : 'Добавить статью' }}
       </h2>
       <label class="block mb-2">Название</label>
-      <input v-model="nameArticle" type="text" class="w-full p-2 border rounded mb-4" />
+      <input v-model="localNameArticle" type="text" class="w-full p-2 border rounded mb-4" />
       <label class="block mb-2">Текст статьи</label>
-      <textarea v-model="textArticle" class="w-full p-2 border rounded mb-4" rows="4"></textarea>
+      <textarea v-model="localTextArticle" class="w-full p-2 border rounded mb-4" rows="4"></textarea>
       <div class="flex justify-end space-x-2">
         <button @click="$emit('close')" class="px-4 py-2 bg-gray-400 text-white rounded-lg">
           Закрыть
         </button>
-        <button @click="addArticle" class="px-4 py-2 bg-green-500 text-white rounded-lg">
+        <button @click="submitArticle" class="px-4 py-2 bg-green-500 text-white rounded-lg">
           {{ isEditing ? 'Сохранить' : 'Добавить' }}
         </button>
       </div>
@@ -25,27 +25,39 @@
 
 <script>
 export default {
-  props: ['hiddenModal', 'initialArticle'],
+  props: {
+    hiddenModal: Boolean,
+    initialArticle: Object,
+  },
   data() {
     return {
-      nameArticle: this.initialArticle?.name || '',
-      textArticle: this.initialArticle?.text || '',
-    }
+      localNameArticle: '',
+      localTextArticle: '',
+    };
   },
-
   computed: {
     isEditing() {
-      debugger
-      return !!this.initialArticle
+      return this.initialArticle && this.initialArticle.name !== undefined;
     },
   },
-
+  watch: {
+    initialArticle: {
+      immediate: true,
+      handler(newValue) {
+        this.localNameArticle = newValue?.name || '';
+        this.localTextArticle = newValue?.text || '';
+      },
+    },
+  },
   methods: {
-    addArticle() {
-      if (this.nameArticle.trim() && this.textArticle.trim()) {
-        this.$emit('submit', { name: this.nameArticle, text: this.textArticle })
+    submitArticle() {
+      if (this.localNameArticle.trim() && this.localTextArticle.trim()) {
+        this.$emit('submit', {
+          name: this.localNameArticle,
+          text: this.localTextArticle,
+        });
       }
     },
   },
-}
+};
 </script>
