@@ -2,7 +2,7 @@
   <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg relative">
     <button
       @click="openEditModal"
-      class="absolute top-4 right-4 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+      class="absolute top-4 right-4 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600"
     >
       <img src="/icon-edit.png" alt="Редактировать" class="w-5 h-5" />
     </button>
@@ -29,105 +29,88 @@
     <FormAddArticle
       v-if="isEditArticle"
       @close="isEditArticle = false"
-      @submit="updateArticle"
+      @submit="saveEditArticle"
       :hiddenModal="!isEditArticle"
-      :initialArticle="{ name: article.name, text: article.text }"
+      :initialArticle="article"
     />
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import ListComments from '@/components/ListComments.vue'
 import AddComment from '@/components/AddComment.vue'
 import FormAddArticle from '@/components/FormAddArticle.vue'
 import CommentFilter from '@/components/CommentFilter.vue'
+
 export default {
   components: { ListComments, AddComment, FormAddArticle, CommentFilter },
   data() {
     return {
       currentEditComment: '',
-      editIndex: null,
+      editIDComment: null,
       isAdd: true,
       isEdit: false,
       isEditArticle: false,
     }
   },
-
   computed: {
+    ...mapState({
+      articles: state => state.articles,
+      listComments: state => state.commentsOnCurrentArticles || []
+    }),
     currentArticleID() {
       return Number(this.$route.params.articleID)
     },
     article() {
-      return (
-        this.$store.state.articles.find((article) => article.id === this.currentArticleID) || {}
-      )
-    },
-    listComments() {
-      return this.$store.state.commentsOnCurrentArticles || []
-    },
+      return this.articles.find(article => article.id === this.currentArticleID) || {}
+    }
   },
-
   methods: {
+    ...mapActions(['filterComments', 'updateArticle', 'deleteComment', 'updateComment', 'addComment', 'loadComments']),
     applyDateFilter({ startDate, endDate }) {
-      this.$store.dispatch('filterComments', { startDate, endDate })
+      this.filterComments({ startDate, endDate })
     },
     openEditModal() {
       this.isEditArticle = true
     },
-    updateArticle(updatedArticle) {
-      const article = {
-        id: this.article.id,
-        createdAt: this.article.createdAt,
-        updatedAt: this.article.updatedAt,
-        name: updatedArticle.name,
-        text: updatedArticle.text,
-      }
-      this.$store.dispatch('updateArticle', article)
-      this.isEditArticle = false
+    saveEditArticle(updatedArticle) {
+      this.updateArticle({
+        ...this.article,
+        ...updatedArticle,
+        updatedAt: new Date().toISOString(),
+      });
+      this.isEditArticle = false;
     },
-    deletedComment(index) {
-      const commentID = this.listComments[index].id
-      this.$store.dispatch('deleteComment', {
-        commentID,
-        articleID: this.currentArticleID,
-      })
+    deletedComment(commentID) {
+      this.deleteComment({ commentID, articleID: this.currentArticleID })
     },
-    editEventComment({ text, index }) {
+    editEventComment({ text, id }) {
       this.currentEditComment = text
-      this.editIndex = index
+      this.editIDComment = id
       this.isEdit = true
     },
     clickFormComment(comment) {
       if (this.isEdit) {
-        const commentId = this.listComments[this.editIndex].id
-        const updateComment = { id: commentId, text: comment.text }
-        this.$store.dispatch('updateComment', {
-          commentUpdate: updateComment,
+        this.updateComment({
+          commentUpdate: { id: this.editIDComment, text: comment.text },
           articleID: this.currentArticleID,
         })
         this.isEdit = false
         this.currentEditComment = ''
-      } else if (this.isAdd) {
-        this.$store.dispatch('addComment', {
-          commentNew: comment,
-          articleID: this.currentArticleID,
-        })
+      } else {
+        this.addComment({ commentNew: comment, articleID: this.currentArticleID })
         this.currentEditComment = ''
       }
     },
-    updateComments() {
-      this.$store.dispatch('loadComments', this.currentArticleID)
-    },
   },
-
   watch: {
     isEdit(newValue) {
       this.isAdd = !newValue
     },
   },
-
   created() {
-    this.updateComments()
+    this.loadComments(this.currentArticleID)
   },
 }
 </script>
