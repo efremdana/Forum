@@ -12,7 +12,11 @@
 
     <div class="mt-6">
       <h2 class="text-2xl font-semibold text-gray-800">Комментарии</h2>
-      <CommentFilter v-model:startDate="startDate" v-model:endDate="endDate" @filter="applyDateFilter" />
+      <CommentFilter
+        v-model:startDate="startDate"
+        v-model:endDate="endDate"
+        @filter="applyDateFilter"
+      />
       <div id="comments-list">
         <ListComments @del="deletedComment" @edit="editEventComment" :listComments="listComments" />
       </div>
@@ -125,7 +129,11 @@ export default {
   },
   created() {
     if (this.startDate && this.endDate) {
-      this.filterComments({ startDate: this.startDate, endDate: this.endDate, articleID: this.currentArticleID })
+      this.filterComments({
+        startDate: this.startDate,
+        endDate: this.endDate,
+        articleID: this.currentArticleID,
+      })
     } else {
       this.loadComments(this.currentArticleID)
     }

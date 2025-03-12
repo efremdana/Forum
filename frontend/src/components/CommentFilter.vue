@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       localStartDate: this.startDate,
-      localEndDate: this.endDate
+      localEndDate: this.endDate,
     }
   },
 

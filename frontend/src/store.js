@@ -142,7 +142,9 @@ const store = createStore({
     },
     async filterComments({ commit }, { startDate, endDate, articleID }) {
       const filterComments = await getCommentsAnalytics(startDate, endDate)
-      const filterCommentsByArticleID = filterComments.filter((comment) => comment.article_id === articleID)
+      const filterCommentsByArticleID = filterComments.filter(
+        (comment) => comment.article_id === articleID,
+      )
       commit('setComments', filterCommentsByArticleID)
     },
   },
