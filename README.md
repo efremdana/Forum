@@ -5,3 +5,5 @@
 ![2025-03-13 12 19 36](https://github.com/user-attachments/assets/97f802ad-1ad0-4d12-b494-d33a7cf83626)
 ![2025-03-13 12 20 18](https://github.com/user-attachments/assets/14d7ec59-d73e-41c9-970f-3660bde25779)
 ![2025-03-13 12 22 40](https://github.com/user-attachments/assets/abd69599-cd6d-4930-a6b4-5522fac2f3e5)
+Запуск через консоль:
+/backend и /frontend - npm run dev
